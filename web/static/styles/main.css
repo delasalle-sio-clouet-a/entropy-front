@@ -1,0 +1,60 @@
+body {
+    background: #222;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #eee;
+}
+
+hr {
+    color: #eee;
+    background: #eee;
+    width: 100%;
+}
+
+a {
+    color: #eee;
+    text-decoration: underline;
+}
+
+.main-table {
+    width:100%;
+    table-layout: fixed;
+}
+
+.border {
+    transition-duration: 0.2s;
+    border: 1px solid #555;
+    border-radius: 13px;
+}
+
+.hover:hover {
+    transition-duration: 0.2s;
+    background: #2b2b2b;
+}
+
+input, select {
+    background: #222;
+    color: #eee;
+    transition-duration: 0.2s;
+    width: 100%;
+    border: 1px solid #555;
+    border-radius: 7px;
+    padding: 5px;
+}
+input:focus, select:focus {
+    background: #373737;
+    color: #fff;
+    transition-duration: 0.2s;
+}
+button {
+    background: #222;
+    color: #eee;
+    transition-duration: 0.2s;
+    border: 1px solid #555;
+    border-radius: 9px;
+    padding: 5px;
+    font-size: 1em;
+}
+button:hover {
+    background: #373737;
+    transition-duration: 0.2s;
+}

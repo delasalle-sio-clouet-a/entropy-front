@@ -1,0 +1,9 @@
+{
+    "compilerOptions":
+    {
+        "outDir": "./javascript",
+        "target": "ES2021",
+        //"module": "CommonJS",
+    },
+    "include": ["./typescript"]
+}
