@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Créer un compte</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    </head>
+    <body style="margin:5px 30px 5px 30px">
+
+        <h2 style="text-align:center">Créer un compte</h2>
+
+        <form method="POST">
+            <table class="border" style="margin:auto;padding:15px">
+                <tr>
+                    <td>Nom d'utilisateur :</td>
+                    <td>
+                        <input type="text" name="loginInput">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mot de passe :</td>
+                    <td>
+                        <input type="password" name="passwordInput">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit">Envoyer</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <br/>
+
+        <!-- Messages Flash -->
+        {% include 'flash_message.html' %}
+    </body>
+</html>
