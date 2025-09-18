@@ -48,12 +48,12 @@ export class Application {
         this.showLogin();
     }
 
-    private showDashboard() {
+    public showDashboard() {
         this.dashboardElement.style.display = null;
         this.loginElement.style.display = "none";
         this.signupElement.style.display = "none";
     }
-    private showLogin() {
+    public showLogin() {
         this.dashboardElement.style.display = "none";
         this.loginElement.style.display = null;
         this.signupElement.style.display = "none";

@@ -100,17 +100,17 @@ export class LoginForm extends HTMLElement {
     private insertHtml() {
         let html = `
         <h2 style="text-align:center">Se connecter</h2>
-            <table style="margin:auto;padding:15px;border:1px #555;border-radius:9px">
+            <table style="margin:auto;padding:15px;border:1px #555;border-radius:9px;min-width:500px">
                 <tr>
-                    <td>Nom d'utilisateur :</td>
-                    <td>
-                        <input type="text" id="login-username">
+                    <td style="width:50%">Nom d'utilisateur :</td>
+                    <td style="width:50%">
+                        <input type="text" id="login-username" style="width:95%">
                     </td>
                 </tr>
                 <tr>
                     <td>Mot de passe :</td>
                     <td>
-                        <input type="password" id="login-password">
+                        <input type="password" id="login-password" style="width:95%">
                     </td>
                 </tr>
                 <tr>
