@@ -31,6 +31,10 @@ export class LoginForm extends HTMLElement {
     // méthodes publiques //
     ////////////////////////
     setApplication(app) { this.application = app; }
+    resetInputs() {
+        this.loginInput.value = null;
+        this.passwordInput.value = null;
+    }
     //////////////////////
     // méthodes privées //
     //////////////////////
@@ -74,6 +78,8 @@ export class LoginForm extends HTMLElement {
     }
     insertHtml() {
         let html = `
+        <h2>Open Web Unsecured School Project</h2>
+        <hr><br/>
         <h2 style="text-align:center">Se connecter</h2>
             <table style="margin:auto;padding:15px;border:1px #555;border-radius:9px;min-width:500px">
                 <tr>
@@ -96,7 +102,7 @@ export class LoginForm extends HTMLElement {
             </table>
         <br/>
         <div style="text-align:center">
-            <button style="font-size:0.8em" id="login-signup-btn">Créer un compte</a>
+            <i style="font-size:0.7em">Pas de compte ? -></i> <button style="font-size:0.8em" id="login-signup-btn">Créer un compte</a>
         </div>
         `;
         this.container.innerHTML = html;

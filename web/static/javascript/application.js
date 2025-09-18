@@ -25,17 +25,26 @@ export class Application {
     showDashboard() {
         this.dashboardElement.style.display = null;
         this.loginElement.style.display = "none";
+        this.loginElement.resetInputs();
         this.signupElement.style.display = "none";
+        this.signupElement.resetInputs();
+        document.title = "OWUSP - Dadhboard";
     }
     showLogin() {
         this.dashboardElement.style.display = "none";
         this.loginElement.style.display = null;
+        this.loginElement.resetInputs();
         this.signupElement.style.display = "none";
+        this.signupElement.resetInputs();
+        document.title = "OWUSP - Se connecter";
     }
     showSignup() {
         this.dashboardElement.style.display = "none";
         this.loginElement.style.display = "none";
+        this.loginElement.resetInputs();
         this.signupElement.style.display = null;
+        this.signupElement.resetInputs();
+        document.title = "OWUSP - S'inscrire";
     }
 }
 let app = new Application(); // démarrage de l'application

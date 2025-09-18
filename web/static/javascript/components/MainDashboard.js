@@ -57,5 +57,36 @@ export class MainDashboard extends HTMLElement {
         `;
         this.shadowRoot.appendChild(style);
     }
+    insertHtml() {
+        let html = `
+        <h2>Open Web Unsecured School Project</h2>
+        <hr><br/>
+        <h2 style="text-align:center">Dashboard</h2>
+            <table style="margin:auto;padding:15px;border:1px #555;border-radius:9px;min-width:500px">
+                <tr>
+                    <td style="width:50%">Nom d'utilisateur :</td>
+                    <td style="width:50%">
+                        <input type="text" id="login-username" style="width:95%">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mot de passe :</td>
+                    <td>
+                        <input type="password" id="login-password" style="width:95%">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" id="login-submit">Envoyer</button>
+                    </td>
+                </tr>
+            </table>
+        <br/>
+        <div style="text-align:center">
+            <i style="font-size:0.7em">Pas de compte ? -></i> <button style="font-size:0.8em" id="login-signup-btn">Créer un compte</a>
+        </div>
+        `;
+        this.container.innerHTML = html;
+    }
 }
 customElements.define("main-dashboard", MainDashboard);

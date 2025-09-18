@@ -31,7 +31,7 @@ export class SignupForm extends HTMLElement {
         });
         // ajouter un event sur l'input password
         this.passwordInput.addEventListener("input", (event) => {
-            let input = this.passwordInput.value;
+            let input = this.shadowRoot.getElementById("login-password").value;
             let score = getEntropyValue(input);
             // mettre à jour le score et le texte affiché
             let texte = getEntropyTextForValue(score);
@@ -43,6 +43,10 @@ export class SignupForm extends HTMLElement {
     // méthodes publiques //
     ////////////////////////
     setApplication(app) { this.application = app; }
+    resetInputs() {
+        this.loginInput.value = null;
+        this.passwordInput = null;
+    }
     //////////////////////
     // méthodes privées //
     //////////////////////
@@ -97,6 +101,8 @@ export class SignupForm extends HTMLElement {
     }
     insertHtml() {
         let html = `
+        <h2>Open Web Unsecured School Project</h2>
+        <hr><br/>
         <h2 style="text-align:center">S'inscrire</h2>
             <table style="margin:auto;padding:15px;border:1px #555;border-radius:9px;min-width:500px">
                 <tr>
