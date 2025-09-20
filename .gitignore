@@ -1,6 +1,5 @@
 # fichiers de configuration
-*.yaml
-*.yml
+appconfig.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
