@@ -1,0 +1,8 @@
+services:
+  oldpythonindexer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: owuspfront
+    ports:
+      - "5001:5001"

@@ -1,0 +1,18 @@
+<!--
+<script type="module" src="{{ url_for('static', filename='javascript/components/FlashMessage.js') }}"></script>
+-->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category,message in messages %}
+        <script type="module">
+            import { FlashMessage } from "{{ url_for('static', filename='javascript/components/FlashMessage.js') }}";
+            let flash = new FlashMessage();
+            flash.setMessage("{{message|safe}}");
+            flash.setType("{{category}}");
+            let body = document.body;
+            body.appendChild(flash);
+            flash.show();
+        </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}

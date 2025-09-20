@@ -1,6 +1,6 @@
 declare let urlApi; // valeur fournie par le document
 
-export class Connexion {
+export class CreerCompte {
     
     //////////////////////
     // attributs privés //

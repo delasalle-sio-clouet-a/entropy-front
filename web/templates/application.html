@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Application</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    </head>
+    <body style="margin:5px 30px 5px 30px">
+        <login-form id="loginForm"></login-form>
+        <signup-form id="signupForm"></signup-form>
+        <main-dashboard id="mainDashboard"></main-dashboard>
+
+        <script>
+            var urlApi = "{{urlApi}}";
+            var minEntropy = {{minEntropy}};
+            var maxRedundancy = {{maxRedundancy}};
+        </script>
+
+        <!-- Messages Flash -->
+        {% include 'flash_message.html' %}
+
+        <!-- Web Components -->
+        <script type="module" src="{{url_for('static', filename='javascript/components/LoginForm.js')}}"></script>
+        <script type="module" src="{{url_for('static', filename='javascript/components/SignupForm.js')}}"></script>
+        <script type="module" src="{{url_for('static', filename='javascript/components/MainDashboard.js')}}"></script>
+
+        <script type="module" src="{{url_for('static', filename='javascript/application.js')}}"></script>
+    </body>
+</html>
