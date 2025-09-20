@@ -2,7 +2,7 @@ from flask import Flask, redirect, url_for, render_template
 from flask_cors import CORS
 import logging
 from secrets import token_hex
-from os import path
+from os import path, environ
 import requests
 
 # récupérer la configuration
@@ -39,4 +39,4 @@ if(__name__ == "__main__"):
                                minEntropy=config.minEntropy,
                                maxRedundancy=config.maxRedundancy)
     
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=int(environ.get("PORT", 5000)))
