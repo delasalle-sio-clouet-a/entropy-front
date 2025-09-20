@@ -68,7 +68,7 @@ export class FlashMessage extends HTMLElement {
         }
         else if (_type.toLowerCase() == "error") {
             // changer les couleurs et la durée du timeout avant le fade out
-            this.fadeOutTime = 4500;
+            this.fadeOutTime = 4000;
             this.paragraph.style.color = "#660000"; // rouge foncé
             this.container.style.border = "2px solid #660000"; // rouge foncé
             this.container.style.background = "#ffe6e6"; // rouge clair
@@ -79,9 +79,9 @@ export class FlashMessage extends HTMLElement {
         setTimeout(this.fadeOut, this.fadeOutTime, this.container); // disparaître après X secondes
     }
     fadeOut(element) {
-        let duration = 2000;
+        let duration = 1500;
         let opacity = 1; // Opacité initiale (complètement visible)
-        const intervalTime = 25; // Temps entre chaque mise à jour (en ms)
+        const intervalTime = 20; // Temps entre chaque mise à jour (en ms)
         const decrement = intervalTime / duration; // Décrément de l'opacité par intervalle
         const interval = setInterval(() => {
             opacity -= decrement;

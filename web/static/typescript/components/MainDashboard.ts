@@ -1,4 +1,5 @@
 import { Application } from "../application.js";
+import { deleteCookie } from "../tools/cookie.js";
 
 export class MainDashboard extends HTMLElement {
 
@@ -6,6 +7,9 @@ export class MainDashboard extends HTMLElement {
     // attributs privés //
     //////////////////////
     private container:HTMLDivElement;
+
+    private logoutButton:HTMLButtonElement;
+    private usersTable:HTMLTableElement;
 
     private application:Application;
 
@@ -23,8 +27,36 @@ export class MainDashboard extends HTMLElement {
 
         // créer un sous-document pour y ajouter des éléments HTML
         this.attachShadow({mode:"open"});
-
         this.shadowRoot.appendChild(this.container)
+        this.insertHtml();
+
+        this.logoutButton = <HTMLButtonElement>this.shadowRoot.getElementById("logout-btn");
+        this.usersTable = <HTMLTableElement>this.shadowRoot.getElementById("users-table");
+
+        // ajouter les events aux boutons
+        this.logoutButton.addEventListener("click", (event) => {
+            // le + important est de delete côté client
+            // si le delete côté serveur plante, on n'annule pas la déconnexion client
+            deleteCookie("auth_login");
+            deleteCookie("auth_token");
+            let requeteLogout = this.application.api.logout();
+            requeteLogout.then((resultat) => {
+                // réinitialiser les identifiants de l'api
+                this.application.api.setToken(null);
+                this.application.api.setUsername(null);
+                // rediriger vers la page de login
+                this.application.showLogin();
+                this.application.showSuccessMessage("Déconnexion réussie.");
+            });
+            requeteLogout.catch((reason) => {
+                // réinitialiser les identifiants de l'api
+                this.application.api.setToken(null);
+                this.application.api.setUsername(null);
+                // rediriger vers la page de login
+                this.application.showLogin();
+                this.application.showSuccessMessage("Déconnexion réussie.");
+            });
+        });
     }
 
     public setApplication(app:Application) { this.application = app; }
@@ -67,6 +99,14 @@ export class MainDashboard extends HTMLElement {
             background: #373737;
             transition-duration: 0.2s;
         }
+        table {
+            min-width: 33%;
+            background: #111;
+            margin: auto;
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 9px;
+        }
         `;
         this.shadowRoot.appendChild(style);
     }
@@ -76,31 +116,42 @@ export class MainDashboard extends HTMLElement {
         <h2>Open Web Unsecured School Project</h2>
         <hr><br/>
         <h2 style="text-align:center">Dashboard</h2>
-            <table style="margin:auto;padding:15px;border:1px #555;border-radius:9px;min-width:500px">
-                <tr>
-                    <td style="width:50%">Nom d'utilisateur :</td>
-                    <td style="width:50%">
-                        <input type="text" id="login-username" style="width:95%">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Mot de passe :</td>
-                    <td>
-                        <input type="password" id="login-password" style="width:95%">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <button type="button" id="login-submit">Envoyer</button>
-                    </td>
-                </tr>
-            </table>
-        <br/>
-        <div style="text-align:center">
-            <i style="font-size:0.7em">Pas de compte ? -></i> <button style="font-size:0.8em" id="login-signup-btn">Créer un compte</a>
-        </div>
+        <button type="button" id="logout-btn" style="display:block;margin:auto;width:20%">Déconnexion</button><br/>
+        <h3 style="text-align:center">Liste des utilisateurs :</h3><br/>
+
+        <table id="users-table">
+        </table>
         `;
         this.container.innerHTML = html;
+    }
+
+    public resetInputs() {
+        // vider la liste des utilisateurs
+        while (this.usersTable.rows.length > 0) {
+            this.usersTable.deleteRow(0);
+        }
+    }
+
+    public fillUsersList() {
+        // récupérer la liste des utilisateurs et les intégrer dans le tableau
+        let requeteUsers = this.application.api.getUsers();
+        requeteUsers.then((resultat) => {
+            if(resultat["statut"] == 0) {
+                this.application.showErrorMessage("Le chargement des données a échoué. Veuillez réessayer.");
+            }
+            else {
+                resultat["Users"].forEach(element => {
+                    let row = this.usersTable.insertRow();
+                    let cell1 = row.insertCell();
+                    let cell2 = row.insertCell();
+                    cell1.innerText = element["id"];
+                    cell2.innerText = element["username"];
+                });
+            }
+        });
+        requeteUsers.catch((reason) => {
+            this.application.showErrorMessage("Le chargement des données a échoué. Veuillez réessayer.");
+        });
     }
 }
 

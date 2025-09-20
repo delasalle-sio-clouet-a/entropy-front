@@ -1,5 +1,6 @@
-export function getEntropyValue(word: string): number {
+export function getEntropyValue(word:string): number {
     /**
+     * Code issu du backend -> Entropy, calculerEntropy()
      * Calculate the entropy of a given word.
      * Entropy is calculated using the formula:
      * H(X) = - Σ (p(x) * log2(p(x)))
@@ -24,6 +25,37 @@ export function getEntropyValue(word: string): number {
     const entropy = -probabilities.reduce((sum, p) => sum + p * Math.log2(p), 0);
 
     return entropy;
+}
+
+export function getRedundancyValue(word:string): number {
+    /**
+     * Code issu du backend -> Entropy, calculerRedondance()
+     */
+    const counts: Record<string, number> = {};
+    for (const char of word) {
+        counts[char] = (counts[char] || 0) + 1;
+    }
+
+    const total = word.length;
+    const N = Object.keys(counts).length;
+
+    if (N === 1) {
+        // If only 1 unique symbol, redundancy is maximal (1)
+        return 1.0;
+    }
+
+    // Calculating entropy
+    const H = -Object.values(counts)
+        .map(freq => {
+            const p = freq / total;
+            return p * Math.log2(p);
+        })
+        .reduce((a, b) => a + b, 0);
+
+    // Calculating redundancy
+    const R = 1 - H / Math.log2(N);
+
+    return R;
 }
 
 export function getEntropyTextForValue(entropyScore:number) : string {

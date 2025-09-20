@@ -6,6 +6,8 @@ import { getCookie, deleteCookie, writeCookie } from "./tools/cookie.js";
 import { Api } from "./tools/api.js";
 
 declare let urlApi; // valeur fournie par le document
+declare let minEntropy; // valeur fournie par le document
+declare let maxRedundancy; // valeur fournie par le document
 
 export class Application {
 
@@ -16,10 +18,13 @@ export class Application {
     private signupElement:SignupForm;
     private dashboardElement:MainDashboard;
 
-    private api:Api;
-
     private userLogin:string;
     private userToken:string;
+
+    ///////////////////////
+    // attributs publics //
+    ///////////////////////
+    public api:Api;
 
     //////////////////
     // constructeur //
@@ -32,7 +37,8 @@ export class Application {
     private startApplication() {
         this.userLogin = getCookie("auth_login");
         this.userToken = getCookie("auth_token");
-
+        this.api.setToken(this.userToken);
+        this.api.setUsername(this.userLogin);
 
         this.loginElement = <LoginForm>document.getElementById("loginForm");
         this.loginElement.setApplication(this);
@@ -41,15 +47,29 @@ export class Application {
         this.dashboardElement = <MainDashboard>document.getElementById("mainDashboard");
         this.dashboardElement.setApplication(this);
 
-        // à faire : valider le token lu depuis le cookie
+        let verificationToken = this.api.validateToken();
+        verificationToken.then((resultat) => {
+            if(resultat["statut"] == 1) {
+                // utilisateur déjà connecté + token valide = afficher le dashboard
+                this.showDashboard();
+            } else {
+                // token invalide = afficher la page de connexion
+                this.showLogin();
+            }
+        });
+        verificationToken.catch((reason) => {
+            // afficher la page de connexion
+            this.showLogin();
+        });
 
         // si token valide -> afficher dashboard
         // sinon : afficher login
-        this.showLogin();
+        
     }
 
     public showDashboard() {
         this.dashboardElement.style.display = null;
+        this.dashboardElement.fillUsersList();
         this.loginElement.style.display = "none";
         this.loginElement.resetInputs();
         this.signupElement.style.display = "none";
@@ -58,6 +78,7 @@ export class Application {
     }
     public showLogin() {
         this.dashboardElement.style.display = "none";
+        this.dashboardElement.resetInputs();
         this.loginElement.style.display = null;
         this.loginElement.resetInputs();
         this.signupElement.style.display = "none";
@@ -66,11 +87,28 @@ export class Application {
     }
     public showSignup() {
         this.dashboardElement.style.display = "none";
+        this.dashboardElement.resetInputs();
         this.loginElement.style.display = "none";
         this.loginElement.resetInputs();
         this.signupElement.style.display = null;
         this.signupElement.resetInputs();
         document.title = "OWUSP - S'inscrire";
+    }
+
+
+    public showErrorMessage(message:string) {
+        let flash = new FlashMessage();
+        flash.setType("error");
+        flash.setMessage(message);
+        document.body.appendChild(flash);
+        flash.show();
+    }
+    public showSuccessMessage(message:string) {
+        let flash = new FlashMessage();
+        flash.setType("success");
+        flash.setMessage(message);
+        document.body.appendChild(flash);
+        flash.show();
     }
 }
 
